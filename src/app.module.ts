@@ -13,23 +13,15 @@ import { ServeStaticModule } from '@nestjs/serve-static';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
         const env = configService.get('NODE_ENV');
-        console.log({ env });
         const isProd = env === 'production';
 
         return [
           {
             rootPath: join(
               __dirname,
-              isProd ? 'static/nfts/og' : '../src/static/nfts/og',
+              isProd ? 'static/nfts/' : '../src/static/nfts/',
             ),
-            serveRoot: '/nfts/og',
-          },
-          {
-            rootPath: join(
-              __dirname,
-              isProd ? 'static/nfts/kuda' : '../src/static/nfts/kuda',
-            ),
-            serveRoot: '/nfts/kuda',
+            serveRoot: '/nfts',
           },
         ];
       },
