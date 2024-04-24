@@ -13,19 +13,15 @@ import * as path from 'path';
 
 @Injectable()
 export class NftService {
-  async saveNftSvg(
-    tokenId: string,
-    isKudaMode: boolean,
-  ): Promise<string> {
+  async saveNftSvg(tokenId: string, isKudaMode: boolean): Promise<string> {
     const svgContent = this.compileNftSvg(tokenId, isKudaMode);
     const filePath = path.join(
-        process.cwd(),
-        'src/statics/nfts',
+      process.cwd(),
+      `src/static//nfts/${isKudaMode ? 'kuda' : 'og'}`,
       `${tokenId}.svg`,
     );
 
     await fs.outputFile(filePath, svgContent);
-    console.log({filePath});
     return filePath;
   }
   compileNftSvg(tokenId: string, isKudaMode: boolean): string {
