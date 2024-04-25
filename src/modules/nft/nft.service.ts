@@ -188,7 +188,7 @@ export class NftService {
       alt="nft-img"
         id="gbc"
         style="display: block"
-        src="http://localhost:3000/static/nfts/og/${tokenId}.svg"
+        src="${process.env.API_URL}/static/nfts/og/${tokenId}.svg"
       />
     </div>
     <script type="text/javascript">
@@ -212,11 +212,11 @@ export class NftService {
             console.log({season});
             switch (season) {
               case 'og':
-                gbc.src = \`http://localhost:3000/static/nfts/og/${tokenId}.svg\`;
+                gbc.src = "${process.env.API_URL}/static/nfts/og/${tokenId}.svg";
                 document.getElementById('og').classList.add('active');
                 break;
               case 'kuda':
-                gbc.src = \`http://localhost:3000/static/nfts/kuda/${tokenId}.svg\`;
+                gbc.src = "${process.env.API_URL}/static/nfts/kuda/${tokenId}.svg";
                 document.getElementById('kuda').classList.add('active');
                 break;
               default:
