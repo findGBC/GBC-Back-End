@@ -64,4 +64,192 @@ export class NftService {
       ${badge ? svgPartsSelected[6][badge] : ''}
     `;
   };
+
+  generateNftHtmlContent(tokenId: string) {
+    return `
+    <html lang="en">
+  <head>
+    <title>GBC</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Figtree"
+    />
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        padding: 0;
+        text-align: center;
+        font-family: 'Figtree', sans-serif;
+        font-weight: bold;
+      }
+
+      #container {
+        display: inline-block;
+        margin: 0 auto;
+        padding: 0;
+        position: relative;
+        width: 100%;
+      }
+
+      #container img {
+        object-fit: contain;
+        width: 100%;
+      }
+
+      #container #points_box {
+        left: 20px;
+        top: 20px;
+        /* width: 150px; */
+        height: 32px;
+        --tw-bg-opacity: 1;
+        background-color: rgb(245 245 245 / var(--tw-bg-opacity));
+        border-radius: 6px;
+        position: absolute;
+      }
+
+      #container #points_box #points {
+        color: rgb(29, 29, 31);
+        height: 32px;
+        line-height: 32px;
+        margin: 0 12px;
+        font-size: 14px;
+      }
+
+      #points_box #tooltip {
+        visibility: hidden;
+        background-color: white;
+        color: #000000;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+
+        /* Position the tooltip */
+        position: absolute;
+        z-index: 1;
+        font-size: 10px;
+        left: 0;
+      }
+
+      #points_box:hover #tooltip {
+        visibility: visible;
+      }
+
+      #container .season-btn {
+        width: 40px;
+        height: 25px;
+        line-height: 25px;
+        font-size: 10px;
+        color: rgb(29, 29, 31);
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      #container .season-btn.active {
+        background-color: #1c1c1c;
+        color: #fff;
+      }
+
+      #container .season-btn:hover {
+        border-color: rgb(78, 171, 48, 0.65);
+      }
+
+      #container .season-container {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        display: flex;
+        --tw-bg-opacity: 1;
+        background-color: rgb(245 245 245 / var(--tw-bg-opacity));
+        padding: 0.2rem;
+        border-radius: 0.5rem;
+        gap: 0.5rem;
+        align-items: center;
+      }
+
+      .season-btn[style*='pointer-events: none'] {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .season-btn.current-season {
+        border: 1px solid rgb(78, 171, 48);
+      }
+    </style>
+  </head>
+  <body data-new-gr-c-s-check-loaded="14.1168.0" data-gr-ext-installed="">
+    <div id="container">
+      <div class="season-container">
+        <div id="og" class="season-btn active">OG</div>
+        <div id="kuda" class="season-btn current-season">KUDA</div>
+      </div>
+      <img
+      alt="nft-img"
+        id="gbc"
+        style="display: block"
+        src="http://localhost:3000/static/nfts/og/${tokenId}.svg"
+      />
+    </div>
+    <script type="text/javascript">
+      function getUrlParameter(name) {
+        name = name.replace(/[\\[]/, '\\\\\\[').replace(/[\\]]/, '\\\\\\]');
+        const regex = new RegExp('[\\\\?&]' + name + '=([^&#]*)');
+        const results = regex.exec(window.location.search);
+        if (results) return decodeURIComponent(results[1].replace(/\\+/g, ' '));
+        else return null;
+      }
+
+      document.addEventListener('DOMContentLoaded', async () => {
+        const tokenId = getUrlParameter('tokenId');
+        if (tokenId) {
+          const gbc = document.getElementById('gbc');
+
+          function updateImage(season) {
+            // Reset active classes
+            document.getElementById('og').classList.remove('active');
+            document.getElementById('kuda').classList.remove('active');
+            console.log({season});
+            switch (season) {
+              case 'og':
+                gbc.src = \`http://localhost:3000/static/nfts/og/${tokenId}.svg\`;
+                document.getElementById('og').classList.add('active');
+                break;
+              case 'kuda':
+                gbc.src = \`http://localhost:3000/static/nfts/kuda/${tokenId}.svg\`;
+                document.getElementById('kuda').classList.add('active');
+                break;
+              default:
+                break;
+            }
+          }
+
+          document
+            .getElementById('og')
+            .addEventListener('click', () => updateImage('og'));
+          document
+            .getElementById('kuda')
+            .addEventListener('click', () => updateImage('kuda'));
+
+         /* const metadata_url = \`https://metadata.degods.com/g/${tokenId}.json\`;
+          const response = await fetch(metadata_url);
+          const metadata = await response.json();
+
+          if (metadata.image.includes('dead')) {
+            document.getElementById('kuda').classList.add('active');
+            document.getElementById('kuda').classList.add('current-season');
+          } else {
+            document.getElementById('og').classList.add('active');
+            document.getElementById('og').classList.add('current-season');
+          }
+
+          degod.src = metadata.image;*/
+        }
+      });
+    </script>
+  </body>
+</html>
+
+    `;
+  }
 }

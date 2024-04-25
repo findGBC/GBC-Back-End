@@ -4,9 +4,11 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { join } from 'path';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { NftModule } from './modules/nft/nft.module';
 
 @Module({
   imports: [
+    NftModule,
     ConfigModule.forRoot(),
     ServeStaticModule.forRootAsync({
       imports: [ConfigModule],
@@ -21,7 +23,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
               __dirname,
               isProd ? 'static/nfts/' : '../src/static/nfts/',
             ),
-            serveRoot: '/nfts',
+            serveRoot: '/static/nfts',
           },
         ];
       },

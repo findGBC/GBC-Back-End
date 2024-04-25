@@ -142,12 +142,11 @@
 
             switch (season) {
               case 'og':
-                console.log(123);
-                gbc.src = `http://localhost:3000/nfts/og/1382.svg`;
+                gbc.src = `http://localhost:3000/nfts/og/${tokenId}.svg`;
                 document.getElementById('og').classList.add('active');
                 break;
               case 'kuda':
-                gbc.src = `http://localhost:3000/nfts/kuda/1382.svg`;
+                gbc.src = `http://localhost:3000/nfts/kuda/${tokenId}.svg`;
                 document.getElementById('kuda').classList.add('active');
                 break;
               default:
@@ -162,7 +161,7 @@
             .getElementById('kuda')
             .addEventListener('click', () => updateImage('kuda'));
 
-          const metadata_url = `https://metadata.degods.com/g/${tokenId}.json`;
+          /* const metadata_url = `https://metadata.degods.com/g/${tokenId}.json`;
           const response = await fetch(metadata_url);
           const metadata = await response.json();
 
@@ -174,7 +173,7 @@
             document.getElementById('og').classList.add('current-season');
           }
 
-          degod.src = metadata.image;
+          degod.src = metadata.image;*/
         }
       });
     </script>
