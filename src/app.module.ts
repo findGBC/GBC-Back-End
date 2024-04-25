@@ -17,10 +17,7 @@ import { NftModule } from './modules/nft/nft.module';
 
         return [
           {
-            rootPath: join(
-              __dirname,
-              isProd ? 'static/nfts/' : '../src/static/nfts/',
-            ),
+            rootPath: join(__dirname, '../src/static/nfts/'),
             serveRoot: '/static/nfts',
           },
         ];
