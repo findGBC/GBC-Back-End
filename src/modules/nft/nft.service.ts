@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
+import * as fs from 'fs-extra';
+import * as path from 'path';
+import svgParts from './mappings/svgParts';
+import svgPartsKuda from './mappings/svgPartsKuda';
+import { tokenIdAttributeTuple } from './mappings/tokenIdAtributeTuple';
 import {
   IAttributeBody,
   IAttributeClothes,
   IAttributeHat,
   IBerryDisplayTupleMap,
 } from './types';
-import svgParts from './mappings/svgParts';
-import svgPartsKuda from './mappings/svgPartsKuda';
-import { tokenIdAttributeTuple } from './mappings/tokenIdAtributeTuple';
-import * as fs from 'fs-extra';
-import * as path from 'path';
 
 @Injectable()
 export class NftService {
@@ -181,14 +181,14 @@ export class NftService {
   <body data-new-gr-c-s-check-loaded="14.1168.0" data-gr-ext-installed="">
     <div id="container">
       <div class="season-container">
-        <div id="og" class="season-btn active">OG</div>
-        <div id="kuda" class="season-btn current-season">KUDA</div>
+      <div id="kuda" class="season-btn active ">KUDA</div>
+        <div id="og" class="season-btn current-season">OG</div>
       </div>
       <img
       alt="nft-img"
         id="gbc"
         style="display: block"
-        src="${process.env.API_URL}/static/nfts/og/${tokenId}.svg"
+        src="${process.env.API_URL}/static/nfts/kuda/${tokenId}.svg"
       />
     </div>
     <script type="text/javascript">
@@ -209,7 +209,6 @@ export class NftService {
             // Reset active classes
             document.getElementById('og').classList.remove('active');
             document.getElementById('kuda').classList.remove('active');
-            console.log({season});
             switch (season) {
               case 'og':
                 gbc.src = "${process.env.API_URL}/static/nfts/og/${tokenId}.svg";
