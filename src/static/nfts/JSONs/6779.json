@@ -1,0 +1,32 @@
+{
+  "name": "GBC #6779",
+  "description": "GBC is a generative 10,000 Blueberries NFT Collection on Arbitrum dedicated to gmx.io and its amazing community",
+  "image": "https://gbc-back-end-production.up.railway.app/static/nfts/kuda/6779.svg",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Pink"
+    },
+    {
+      "trait_type": "Clothes",
+      "value": "Hawaiian Shirt Yellow"
+    },
+    {
+      "trait_type": "Body",
+      "value": "Blueberry"
+    },
+    {
+      "trait_type": "Expression",
+      "value": "Fear"
+    },
+    {
+      "trait_type": "Face Accessory",
+      "value": "Eyepatch"
+    },
+    {
+      "trait_type": "Hat",
+      "value": "Cap Blue"
+    }
+  ],
+  "animation_url": "https://gbc-back-end-production.up.railway.app/html?tokenId=6779"
+}

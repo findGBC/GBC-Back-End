@@ -41,6 +41,26 @@ export class NftService {
     return nftHtml;
   }
 
+  async updateNftMetadata() {
+    const jsonDirectory = path.join(process.cwd(), 'src/static/nfts/JSONs');
+    const jsonFiles = await fs.readdir(jsonDirectory);
+    let i = 0;
+    for (const file of jsonFiles) {
+      if (file.endsWith('.json')) {
+        const filePath = path.join(jsonDirectory, file);
+        const jsonContent = await fs.readJson(filePath);
+        const tokenId = jsonContent.name.split('#')[1].trim();
+
+        jsonContent.image = `https://gbc-back-end-production.up.railway.app/static/nfts/kuda/${tokenId}.svg`;
+
+        jsonContent.animation_url = `https://gbc-back-end-production.up.railway.app/html?tokenId=${tokenId}`;
+
+        console.log((i += 1), 'metadata updated: ', filePath);
+
+        await fs.writeJson(filePath, jsonContent, { spaces: 2 });
+      }
+    }
+  }
   private berryPartsToSvg = (
     [
       background,
