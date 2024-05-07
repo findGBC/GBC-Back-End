@@ -22,6 +22,15 @@ export class NftController {
       console.log(i + 1, filePath);
     }
   }
+
+  async validateAllSvgs() {
+    for (let i = 0; i < tokenIdAttributeTuple.length; i++) {
+      await this.nftService.validateSvg((i + 1).toString());
+    }
+
+    await this.nftService.validateSvgData();
+  }
+
   @Get('/html')
   getNftHtml(@Query('tokenId') tokenId: string, @Res() res: Response) {
     const htmlContent = this.nftService.generateNftHtmlContent(tokenId);

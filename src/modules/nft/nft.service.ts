@@ -10,6 +10,8 @@ import {
   IAttributeHat,
   IBerryDisplayTupleMap,
 } from './types';
+import {optimize} from "svgo";
+import axios from "axios";
 
 @Injectable()
 export class NftService {
@@ -17,7 +19,7 @@ export class NftService {
     const svgContent = this.compileNftSvg(tokenId, isKudaMode);
     const filePath = path.join(
       process.cwd(),
-      `src/static//nfts/${isKudaMode ? 'kuda' : 'og'}`,
+      `src/static/nfts/${isKudaMode ? 'kuda' : 'og'}`,
       `${tokenId}.svg`,
     );
 
@@ -41,6 +43,29 @@ export class NftService {
     return nftHtml;
   }
 
+  async validateSvg(tokenId: string) {
+    try {
+      await axios.get(`${process.env.API_URL}/${process.env.KUDA_IPFS}/${tokenId}.svg`);
+    } catch (e) {
+      console.log(tokenId, e);
+    }
+  }
+
+  async validateSvgData() {
+    const directory = './src/static/nfts/kuda'
+    const files = fs.readdirSync(directory);
+    for (const file of files) {
+      if (path.extname(file) === '.svg') {
+        const filePath = path.join(directory, file);
+        const svg = fs.readFileSync(filePath, 'utf8');
+        const result = optimize(svg, { path: filePath });
+        if ('error' in result) {
+          console.log(`Error optimizing SVG: ${result.error}`);
+        }
+      }
+    }
+  }
+
   async updateNftMetadata() {
     const jsonDirectory = path.join(process.cwd(), 'src/static/nfts/JSONs');
     const jsonFiles = await fs.readdir(jsonDirectory);
@@ -51,7 +76,7 @@ export class NftService {
         const jsonContent = await fs.readJson(filePath);
         const tokenId = jsonContent.name.split('#')[1].trim();
 
-        jsonContent.image = `https://gbc-back-end-production.up.railway.app/static/nfts/kuda/${tokenId}.svg`;
+        jsonContent.image = `${process.env.API_URL}/${process.env.KUDA_IPFS}/${tokenId}.svg`;
 
         jsonContent.animation_url = `https://gbc-back-end-production.up.railway.app/html?tokenId=${tokenId}`;
 
@@ -208,7 +233,7 @@ export class NftService {
       alt="nft-img"
         id="gbc"
         style="display: block"
-        src="${process.env.API_URL}/static/nfts/kuda/${tokenId}.svg"
+        src="${process.env.API_URL}/${process.env.KUDA_IPFS}/${tokenId}.svg"
       />
     </div>
     <script type="text/javascript">
@@ -231,11 +256,11 @@ export class NftService {
             document.getElementById('kuda').classList.remove('active');
             switch (season) {
               case 'og':
-                gbc.src = "${process.env.API_URL}/static/nfts/og/${tokenId}.svg";
+                gbc.src = "${process.env.API_URL}/${process.env.OG_IPFS}/${tokenId}.svg";
                 document.getElementById('og').classList.add('active');
                 break;
               case 'kuda':
-                gbc.src = "${process.env.API_URL}/static/nfts/kuda/${tokenId}.svg";
+                gbc.src = "${process.env.API_URL}/${process.env.KUDA_IPFS}/${tokenId}.svg";
                 document.getElementById('kuda').classList.add('active');
                 break;
               default:
